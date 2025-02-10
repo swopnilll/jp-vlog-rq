@@ -12,24 +12,37 @@ export function Posts() {
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedPost, setSelectedPost] = useState(null);
 
-  const { data } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
   });
 
+  if (isLoading) {
+    return <h1>...isLoading</h1>;
+  }
+
+  if (isError) {
+    return <h1>Oops! Something went wrong!!! {error.message}</h1>;
+  }
+
   return (
     <>
-      <ul>
-        {data?.map((post) => (
-          <li
-            key={post.id}
-            className="post-title"
-            onClick={() => setSelectedPost(post)}
-          >
-            {post.title}
-          </li>
-        ))}
-      </ul>
+      {!isError && (
+        <>
+          {" "}
+          <ul>
+            {data?.map((post) => (
+              <li
+                key={post.id}
+                className="post-title"
+                onClick={() => setSelectedPost(post)}
+              >
+                {post.title}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
       <div className="pages">
         <button disabled onClick={() => {}}>
           Previous page
