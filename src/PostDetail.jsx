@@ -1,9 +1,15 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { fetchComments } from "./api";
 import "./PostDetail.css";
 
 export function PostDetail({ post }) {
   // replace with useQuery
-  const data = [];
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["post-detail", post.id],
+    queryFn: () => fetchComments(post.id),
+  });
 
   return (
     <>
@@ -11,11 +17,13 @@ export function PostDetail({ post }) {
       <button>Delete</button> <button>Update title</button>
       <p>{post.body}</p>
       <h4>Comments</h4>
-      {data.map((comment) => (
-        <li key={comment.id}>
-          {comment.email}: {comment.body}
-        </li>
-      ))}
+      {isLoading && <p>Loading post comments...</p>}
+      {!error &&
+        data?.map((comment) => (
+          <li key={comment.id}>
+            {comment.email}: {comment.body}
+          </li>
+        ))}
     </>
   );
 }

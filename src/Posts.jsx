@@ -28,20 +28,17 @@ export function Posts() {
   return (
     <>
       {!isError && (
-        <>
-          {" "}
-          <ul>
-            {data?.map((post) => (
-              <li
-                key={post.id}
-                className="post-title"
-                onClick={() => setSelectedPost(post)}
-              >
-                {post.title}
-              </li>
-            ))}
-          </ul>
-        </>
+        <ul>
+          {data?.map((post) => (
+            <li
+              key={post.id}
+              className="post-title"
+              onClick={() => setSelectedPost(post)}
+            >
+              {post.title}
+            </li>
+          ))}
+        </ul>
       )}
       <div className="pages">
         <button disabled onClick={() => {}}>
